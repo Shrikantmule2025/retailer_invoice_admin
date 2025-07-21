@@ -58,7 +58,7 @@ def login():
 def dashboard():
     if 'user' not in session:
         return redirect('/login')
-    if request.method == 'POST':
+    if request.method == 'POST':classmethod
         invoices = load_data(INVOICES)
         rid = f"REQ{len(invoices)+1:03}"
         invoices[rid] = {
@@ -104,14 +104,14 @@ def approve(rid):
 def send_invoice_email(to_email, file_path):
     msg = EmailMessage()
     msg['Subject'] = "Invoice Approved"
-    msg['From'] = "your_email@gmail.com"
+    msg['From'] = "pawanrajeagro01@gmail.com"
     msg['To'] = to_email
     msg.set_content("Your invoice is attached.")
     with open(file_path, 'rb') as f:
         msg.add_attachment(f.read(), maintype='application', subtype='pdf', filename=os.path.basename(file_path))
     with smtplib.SMTP('smtp.gmail.com', 587) as s:
         s.starttls()
-        s.login("your_email@gmail.com", "your_password")  # ⚠️ Replace with App Password
+        s.login("pawanrajeagro01@gmail.com", "Pavan@7777")  # ⚠️ Replace with App Password
         s.send_message(msg)
 
 @app.route('/logout')
