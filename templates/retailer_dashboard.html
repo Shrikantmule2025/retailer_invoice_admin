@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Retailer Dashboard - Pavanraje Agro</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #eef9f1; padding: 30px; }
+        h2 { color: #2d6a4f; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #ccc; text-align: left; }
+        .status-approved { color: green; }
+        .status-pending { color: orange; }
+        a.download-link { color: blue; text-decoration: underline; }
+        .lang-toggle { float: right; margin-top: -30px; }
+    </style>
+</head>
+<body>
+    <h2>{{ "Welcome Retailer" if lang == 'en' else "खरेदीदार डॅशबोर्ड" }}</h2>
+    
+    <div class="lang-toggle">
+        <a href="?lang=en">English</a> | <a href="?lang=mr">मराठी</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>{{ "Request ID" if lang == 'en' else "विनंती क्रमांक" }}</th>
+                <th>{{ "Date" if lang == 'en' else "तारीख" }}</th>
+                <th>{{ "Status" if lang == 'en' else "स्थिती" }}</th>
+                <th>{{ "Invoice" if lang == 'en' else "चलन" }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rid, inv in invoices.items() %}
+                {% if inv['retailer'] == retailer %}
+                <tr>
+                    <td>{{ rid }}</td>
+                    <td>{{ inv['date'] }}</td>
+                    <td class="status-{{ inv['status'] }}">{{ inv['status']|capitalize }}</td>
+                    <td>
+                        {% if inv['status'] == 'approved' %}
+                            <a href="/static/invoice_{{ rid }}.pdf" class="download-link" download>
+                                {{ "Download" if lang == 'en' else "डाऊनलोड" }}
+                            </a>
+                        {% else %}
+                            {{ "Pending" if lang == 'en' else "प्रलंबित" }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
