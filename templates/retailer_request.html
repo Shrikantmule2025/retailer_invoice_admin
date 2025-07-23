@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ "Invoice Request" if lang == 'en' else "चलन विनंती" }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background: #f1f9ee; }
+        h2 { color: #1b4332; }
+        label { display: block; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 5px; }
+        button { padding: 10px 20px; margin-top: 20px; background-color: #2d6a4f; color: white; border: none; }
+        .lang-toggle { float: right; }
+    </style>
+</head>
+<body>
+    <div class="lang-toggle">
+        <a href="?lang=en">English</a> | <a href="?lang=mr">मराठी</a>
+    </div>
+
+    <h2>{{ "Invoice Request Form" if lang == 'en' else "चलन विनंती फॉर्म" }}</h2>
+    
+    <form method="POST">
+        <label>{{ "Retailer Name" if lang == 'en' else "खरेदीदाराचे नाव" }}</label>
+        <input type="text" name="retailer_name" required>
+
+        <label>{{ "Email" if lang == 'en' else "ईमेल" }}</label>
+        <input type="email" name="email" required>
+
+        <label>{{ "Description" if lang == 'en' else "वर्णन" }}</label>
+        <textarea name="description" rows="4" required></textarea>
+
+        <button type="submit">{{ "Submit Request" if lang == 'en' else "विनंती पाठवा" }}</button>
+    </form>
+</body>
+</html>

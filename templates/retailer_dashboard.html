@@ -20,6 +20,11 @@
     <div class="lang-toggle">
         <a href="?lang=en">English</a> | <a href="?lang=mr">मराठी</a>
     </div>
+<p>
+    <a href="/retailer_request?lang={{ lang }}">
+        {{ "➕ New Invoice Request" if lang == 'en' else "➕ नवीन चलन विनंती" }}
+    </a>
+</p>
 
     <table>
         <thead>

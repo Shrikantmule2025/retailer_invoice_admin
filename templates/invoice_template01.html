@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice {{ rid }}</title>
+    <style>
+        body { font-family: 'Arial'; padding: 40px; background: white; color: #000; }
+        h2 { text-align: center; color: #1b4332; }
+        .info { margin-top: 30px; }
+        .info p { margin: 6px 0; }
+        .footer { margin-top: 50px; text-align: center; font-size: 13px; color: #888; }
+        hr { border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+
+    <h2>पवनराजे अॅग्रो प्रॉड्युसर कंपनी लि. धाराशिव</h2>
+    <h4 style="text-align:center;">Govardhanwadi, Dharashiv - 413508<br>Contact: 9900857777</h4>
+
+    <hr>
+
+    <div class="info">
+        <p><strong>Invoice ID:</strong> {{ rid }}</p>
+        <p><strong>Retailer Name:</strong> {{ data['retailer_name'] }}</p>
+        <p><strong>Email:</strong> {{ data['email'] }}</p>
+        <p><strong>Date:</strong> {{ data['date'] }}</p>
+        <p><strong>Description:</strong><br>{{ data['description'] }}</p>
+    </div>
+
+    <hr>
+
+    <div class="footer">
+        This is a computer-generated invoice from Pavanraje Agro Producer Company Ltd.<br>
+        Thank you for working with us!
+    </div>
+
+</body>
+</html>

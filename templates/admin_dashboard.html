@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Invoice Requests</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #eef2f7; padding: 30px; }
+        h2 { color: #2b2d42; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        .btn { padding: 6px 12px; background-color: green; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h2>Admin Panel - All Invoice Requests</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>Retailer</th>
+                <th>Description</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rid, data in invoices.items() %}
+            <tr>
+                <td>{{ rid }}</td>
+                <td>{{ data['retailer_name'] }}</td>
+                <td>{{ data['description'] }}</td>
+                <td>{{ data['email'] }}</td>
+                <td>{{ data['date'] }}</td>
+                <td>{{ data['status'] }}</td>
+                <td>
+                    {% if data['status'] == 'pending' %}
+                        <form action="/approve/{{ rid }}" method="post">
+                            <button type="submit" class="btn">Approve</button>
+                        </form>
+                    {% else %}
+                        Approved
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
