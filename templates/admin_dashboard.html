@@ -2,51 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Invoice Requests</title>
+    <title>Admin Dashboard</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #eef2f7; padding: 30px; }
-        h2 { color: #2b2d42; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-        .btn { padding: 6px 12px; background-color: green; color: white; border: none; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
-    <h2>Admin Panel - All Invoice Requests</h2>
-
+    <h2>🧾 Pending Invoice Approvals</h2>
+    {% if invoices %}
     <table>
         <thead>
             <tr>
-                <th>Request ID</th>
-                <th>Retailer</th>
-                <th>Description</th>
-                <th>Email</th>
+                <th>#</th>
+                <th>Retailer Name</th>
+                <th>Amount</th>
                 <th>Date</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>Approve</th>
             </tr>
         </thead>
         <tbody>
-            {% for rid, data in invoices.items() %}
+            {% for invoice in invoices %}
             <tr>
-                <td>{{ rid }}</td>
-                <td>{{ data['retailer_name'] }}</td>
-                <td>{{ data['description'] }}</td>
-                <td>{{ data['email'] }}</td>
-                <td>{{ data['date'] }}</td>
-                <td>{{ data['status'] }}</td>
+                <td>{{ loop.index }}</td>
+                <td>{{ invoice['retailer_name'] }}</td>
+                <td>{{ invoice['amount'] }}</td>
+                <td>{{ invoice['date'] }}</td>
                 <td>
-                    {% if data['status'] == 'pending' %}
-                        <form action="/approve/{{ rid }}" method="post">
-                            <button type="submit" class="btn">Approve</button>
-                        </form>
-                    {% else %}
-                        Approved
-                    {% endif %}
+                    <form action="/approve/{{ invoice['id'] }}" method="post">
+                        <button type="submit">Approve</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <p>✅ सध्या कोणतीही नवीन विनंती नाही.</p>
+    {% endif %}
 </body>
 </html>
