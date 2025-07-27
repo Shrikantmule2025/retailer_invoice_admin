@@ -124,6 +124,16 @@ def retailer_dashboard():
     if 'retailer' not in session:
         return redirect('/retailer_login')
 
+    lang = request.args.get('lang', 'en')
+    invoices = load_data(INVOICES)
+    retailer = session['retailer']
+
+    return render_template(
+        'retailer_dashboard.html', 
+                           invoices=invoices, 
+                           retailer=retailer, 
+                           lang=lang
+        )
 RETAILERS = {
     "retailer1": {"password": "1234", "name": "सिद्धी ट्रेडर्स"},
     "retailer2": {"password": "5678", "name": "कृषी सेवा केंद्र"}
@@ -149,6 +159,17 @@ def admin_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        if username in RETAILERS and RETAILERS[username]['password'] == password:
+            session['retailer'] = username
+            return redirect('/retailer_dashboard')
+        elif username in USERS and USERS[username] == password:
+            session['user'] = username
+            return redirect('/dashboard')
+        else:
+            return "Invalid credentials. Please try again."
+
+            return render_template('admin_login.html')
         if username == 'admin' and password == 'admin123':
             session['admin'] = True
             return redirect('/admin_dashboard')
