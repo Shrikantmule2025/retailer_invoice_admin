@@ -39,6 +39,14 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        retailer = RETAILERS.get(username)
+
+        if retailer and retailer['password'] == password:
+            session['retailer'] = username
+            return redirect('/retailer_dashboard')
+        else:
+            return "Invalid credentials. Please try again."
+        return render_template('login.html')
         if username in USERS and USERS[username] == password:
             session['user'] = username
             return redirect('/dashboard')
@@ -85,8 +93,13 @@ def approve_invoice(rid):
 def admin_dashboard():
     if not session.get('admin'):
         return redirect('/admin_login')
-    invoices = load_data(INVOICES)
-    pending = [inv for inv in invoices if inv['status'] == 'pending']
+
+    try:
+        invoices = load_data(INVOICES)
+        pending = [inv for inv in invoices if inv['status'] == 'pending']
+    except Exception as e:
+         print("Error loading invoices:", e)
+    pending = []
     return render_template('admin_dashboard.html', invoices=pending)
 
 @app.route('/dashboard')
