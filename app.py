@@ -88,7 +88,6 @@ def admin_dashboard():
     invoices = load_data(INVOICES)
     pending = [inv for inv in invoices if inv['status'] == 'pending']
     return render_template('admin_dashboard.html', invoices=pending)
-@app.route('/admin_logout')
 
 @app.route('/dashboard')
 def dashboard():
