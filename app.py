@@ -123,6 +123,18 @@ def retailer_login():
 
     return render_template('retailer_login.html', error=error)
 
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username == 'admin' and password == 'admin123':
+            session['admin'] = True
+            return redirect('/admin_dashboard')
+        else:
+            return render_template('admin_login.html', error='Invalid credentials')
+    return render_template('admin_login.html')
+
 @app.route('/retailer_logout')
 def retailer_logout():
     session.pop('retailer', None)
@@ -177,6 +189,7 @@ def generate_pdf(invoice_data, rid):
     return path
 
 def send_invoice_email(to_email, file_path):
+    print(f"📧 Sending invoice to: {to_email}")
     msg = EmailMessage()
     msg['Subject'] = "Invoice Approved"
     msg['From'] = os.environ.get("EMAIL_USER")
@@ -188,11 +201,12 @@ def send_invoice_email(to_email, file_path):
         s.starttls()
         s.login(os.environ.get("EMAIL_USER"), os.environ.get("EMAIL_PASS"))
         s.send_message(msg)
-
+print("✅ Email Sent Successfully")
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect('/login')
 
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 10000))  # Render will inject PORT
     app.run(host='0.0.0.0', port=10000)
