@@ -81,6 +81,15 @@ def approve_invoice(rid):
 
     return redirect('/admin_dashboard')
 
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    if not session.get('admin'):
+        return redirect('/admin_login')
+    invoices = load_data(INVOICES)
+    pending = [inv for inv in invoices if inv['status'] == 'pending']
+    return render_template('admin_dashboard.html', invoices=pending)
+@app.route('/admin_logout')
+
 @app.route('/dashboard')
 def dashboard():
     if 'user' not in session:
